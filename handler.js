@@ -1,7 +1,20 @@
 'use strict';
 
-module.exports.hello = async event => {
-  return {
+const request = require('request');
+const aws = require('aws-sdk');
+var url = 'https://tetsudo.rti-giken.jp/free/delay.json';
+
+module.exports.getDelayList = async event => {
+
+  request.get({
+    uri: url,
+    headers: {'Content-type': 'application/json'},
+    json: true
+  }, function(err, req, data){
+      console.log(data);
+  });
+
+  const response = {
     statusCode: 200,
     body: JSON.stringify(
       {
@@ -13,6 +26,5 @@ module.exports.hello = async event => {
     ),
   };
 
-  // Use this code if you don't use the http event with the LAMBDA-PROXY integration
-  // return { message: 'Go Serverless v1.0! Your function executed successfully!', event };
+  return response;
 };
