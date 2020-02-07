@@ -4,7 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "aws-sdk": "^2.613.0"
+    "aws-sdk": "^2.613.0",
+    "request": "^2.88.0"
   },
   "devDependencies": {
     "serverless-offline": "^5.12.1"
