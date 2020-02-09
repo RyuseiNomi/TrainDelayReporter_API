@@ -2,16 +2,16 @@
 
 const request = require('request');
 const aws = require('aws-sdk');
-var url = 'https://tetsudo.rti-giken.jp/free/delay.json';
 
-module.exports.getDelayList = async event => {
+module.exports.getDelayList = function(event, context, callback) {
 
-  var result_json = '';
+  var delay_json_url = 'https://tetsudo.rti-giken.jp/free/delay.json';
+  var response = {statusCode: null, body: null};
   var headers = {
     'Content-type': 'application/json'
   };
   var options = {
-    url: url,
+    url: delay_json_url,
     method: 'GET',
     headers: headers,
     json: true
@@ -21,21 +21,15 @@ module.exports.getDelayList = async event => {
     if (err != null) {
       console.log(err);
     }
-    console.log(data);
-    result_json = data;
-  });
-
-  const response = {
-    statusCode: 200,
-    body: JSON.stringify(
+    response.statusCode = 200;
+    response.body = JSON.stringify(
       {
-        result: result_json,
-        input: event,
+        delay_list: data,
       },
       null,
       2
-    ),
-  };
-
-  return response;
+    );
+    console.log(data);
+    callback(null, response);
+  });
 };
