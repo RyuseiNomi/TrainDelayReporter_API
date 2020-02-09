@@ -29,7 +29,6 @@ module.exports.getDelayList = function(event, context, callback) {
       null,
       2
     );
-    console.log(data);
     callback(null, response);
   });
 };
