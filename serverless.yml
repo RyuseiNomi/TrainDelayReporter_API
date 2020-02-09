@@ -1,10 +1,11 @@
-service: delay_reporter_be
+service: delay-reporter-be
 
 plugins:
   - serverless-offline
 
 provider:
   name: aws
+  stage: beta
   runtime: nodejs12.x
   region: ap-northeast-1
 
