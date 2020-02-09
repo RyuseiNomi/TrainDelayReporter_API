@@ -16,3 +16,5 @@ functions:
       - http:
           path: delayList
           method: get
+          cros:
+            origin: http://localhost:3000

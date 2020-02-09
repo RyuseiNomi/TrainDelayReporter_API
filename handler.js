@@ -6,7 +6,7 @@ const aws = require('aws-sdk');
 module.exports.getDelayList = function(event, context, callback) {
 
   var delay_json_url = 'https://tetsudo.rti-giken.jp/free/delay.json';
-  var response = {statusCode: null, body: null};
+  var response = {statusCode: null, headers: null, body: null};
   var headers = {
     'Content-type': 'application/json'
   };
@@ -22,6 +22,9 @@ module.exports.getDelayList = function(event, context, callback) {
       console.log(err);
     }
     response.statusCode = 200;
+    response.headers = {
+      "Access-Control-Allow-Origin" : "http://localhost:3000",
+    };
     response.body = JSON.stringify(
       {
         delay_list: data,
