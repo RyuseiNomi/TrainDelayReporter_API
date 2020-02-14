@@ -23,7 +23,7 @@ module.exports.getDelayList = function(event, context, callback) {
     }
     response.statusCode = 200;
     response.headers = {
-      "Access-Control-Allow-Origin" : "http://localhost:3000",
+      "Access-Control-Allow-Origin" : "*",
     };
     response.body = JSON.stringify(
       {
