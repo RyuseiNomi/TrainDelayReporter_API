@@ -5,6 +5,7 @@ const aws = require('aws-sdk');
 
 module.exports.getDelayList = function(event, context, callback) {
 
+  var region = event.queryStringParameters.region;
   var delay_json_url = 'https://tetsudo.rti-giken.jp/free/delay.json';
   var response = {statusCode: null, headers: null, body: null};
   var headers = {
