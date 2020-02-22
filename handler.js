@@ -2,37 +2,32 @@
 
 const request = require('request');
 const aws = require('aws-sdk');
+const s3 = new aws.S3();
+var result_object = 'default';
 
 module.exports.getDelayList = function(event, context, callback) {
 
-  var region = event.queryStringParameters.region;
-  var delay_json_url = 'https://tetsudo.rti-giken.jp/free/delay.json';
-  var response = {statusCode: null, headers: null, body: null};
-  var headers = {
-    'Content-type': 'application/json'
-  };
-  var options = {
-    url: delay_json_url,
-    method: 'GET',
-    headers: headers,
-    json: true
+  const region = event.queryStringParameters.region;
+  const params = {
+    Bucket: 'delay-list',
+    Key: 'delay-list.json'
   };
 
-  request(options, function(err, req, data){
-    if (err != null) {
-      console.log(err);
+  s3.getObject(params, function(err, data){
+    if (err) {
+      console.log('a');
+      result_object = err;
     }
-    response.statusCode = 200;
-    response.headers = {
-      "Access-Control-Allow-Origin" : "*",
-    };
-    response.body = JSON.stringify(
-      {
-        delay_list: data,
-      },
-      null,
-      2
-    );
-    callback(null, response);
-  });
+    console.log('b');
+    result_object = JSON.parse(data.Body.toString());
+  })
+
+  var response = {
+    statusCode: 200,
+    headers: {},
+    body: result_object
+  };
+
+  console.log('c');
+  callback(null, response);
 };
