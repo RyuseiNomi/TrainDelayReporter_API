@@ -21,7 +21,7 @@ module.exports.getDelayList = function(event, context, callback) {
     response.body = JSON.stringify(result_json);
     response.statusCode = 200;
     response.headers = {
-      "Access-control-Allow-Origin": "*",
+      "Access-Control-Allow-Origin" : "*",
     };
     callback(null, response);
   })
