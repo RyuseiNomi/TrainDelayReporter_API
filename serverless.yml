@@ -16,3 +16,4 @@ functions:
       - http:
           path: delayList
           method: get
+          cors: true

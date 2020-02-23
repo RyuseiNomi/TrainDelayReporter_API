@@ -15,10 +15,31 @@ module.exports.getDelayList = function(event, context, callback) {
 
   s3.getObject(params, function(err, data){
     if (err) {
-      console.log(err);
+      response.body = JSON.stringify(
+        {
+          error: err
+        },
+        null,
+        2
+      );
+    } else if (data.Body == null) {
+      response.body = JSON.stringify(
+        {
+          error: "response from S3 is null"
+        },
+        null,
+        2
+      );
+    } else {
+      response.body = JSON.stringify(
+        {
+          region: region,
+          delay_list: JSON.parse(data.Body.toString())
+        },
+        null,
+        2
+      );
     }
-    var result_json = JSON.parse(data.Body.toString());
-    response.body = JSON.stringify(result_json);
     response.statusCode = 200;
     response.headers = {
       "Access-Control-Allow-Origin" : "*",
