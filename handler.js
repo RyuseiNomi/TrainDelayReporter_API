@@ -7,6 +7,7 @@ const s3 = new aws.S3();
 module.exports.getDelayList = function(event, context, callback) {
 
   var response = {statusCode: null, headers: null, body: null};
+  var response_error = '';
   const region = event.queryStringParameters.region;
   const params = {
     Bucket: 'delay-list',
@@ -14,33 +15,23 @@ module.exports.getDelayList = function(event, context, callback) {
   };
 
   s3.getObject(params, function(err, data){
-    if (err) {
-      response.body = JSON.stringify(
-        {
-          error: err
-        },
-        null,
-        2
-      );
-    } else if (data.Body == null) {
-      response.body = JSON.stringify(
-        {
-          error: "response from S3 is null"
-        },
-        null,
-        2
-      );
-    } else {
-      response.body = JSON.stringify(
-        {
-          region: region,
-          delay_list: JSON.parse(data.Body.toString())
-        },
-        null,
-        2
-      );
-    }
     response.statusCode = 200;
+
+    if (err) {
+      response_error = err;
+      response.statusCode = 500;
+    }
+
+    response.body = JSON.stringify(
+      {
+        region: region,
+        delay_list: JSON.parse(data.Body.toString()),
+        error: response_error
+      },
+      null,
+      2
+    );
+
     response.headers = {
       "Access-Control-Allow-Origin" : "*",
     };
